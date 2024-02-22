@@ -1,7 +1,7 @@
 /** @format */
 
 import { NextFunction, Request, Response } from "express";
-import { prisma } from "../index";
+import prisma from "@/prisma";
 import { createInventorySchema } from "../schemas";
 const createInventory = async (
   req: Request,
@@ -20,7 +20,6 @@ const createInventory = async (
         data: {
           productId,
           availableQuantity,
-          updatedAt: new Date(),
         },
       });
       res
