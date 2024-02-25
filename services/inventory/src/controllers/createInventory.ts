@@ -11,20 +11,33 @@ const createInventory = async (
   try {
     const validationSchema = createInventorySchema.safeParse(req.body);
     if (!validationSchema.success) {
-      console.error(validationSchema.error.errors);
-      res.status(422).json({ error: "Zod validation error" });
+      return res.status(422).json({
+        message: "Zod validation error",
+        error: validationSchema.error.errors,
+      });
     }
     if (validationSchema.success) {
-      const { productId, availableQuantity } = validationSchema.data;
+      const { availableQuantity, sku, productName } = validationSchema.data;
       const inventory = await prisma.inventory.create({
         data: {
-          productId,
+          productName,
+          sku,
           availableQuantity,
+          histories: {
+            create: {
+              actionType: "IN",
+              quantity: availableQuantity,
+              lastQuantity: 0,
+              currentQuantity: availableQuantity,
+            },
+          },
         },
       });
-      res
-        .status(201)
-        .json({ message: "Inventory created successfully", data: inventory });
+
+      res.status(201).json({
+        message: "Inventory created successfully",
+        data: inventory,
+      });
     }
   } catch (error) {
     console.log(error);

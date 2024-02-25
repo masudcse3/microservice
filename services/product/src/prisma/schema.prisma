@@ -12,27 +12,18 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-model Inventory {
+enum Status {
+  DRAFT
+  PUBLISHED
+}
+model Product {
   id String @id @default(cuid())
+  inventoryId String 
   sku String @unique
-  productName String?
-  availableQuantity Int 
-  histories InventoryHistory[]
+  name String
+  description String?
+  price Int
+  status Status @default(DRAFT)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-enum ActionType{
-  IN
-  OUT
-}
-model InventoryHistory {
-  id String @id @default(cuid())
-  actionType ActionType @default(IN)
-  quantity Int
-  lastQuantity Int
-  currentQuantity Int
-  inventory Inventory @relation(fields: [sku], references: [id], onDelete: Cascade)
-  sku String
-  createdAt DateTime @default(now())
 }
