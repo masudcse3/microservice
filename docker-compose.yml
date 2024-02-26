@@ -6,7 +6,7 @@ services:
   postgres:
     image: postgres:latest
     container_name: postgres_container
-    restart: always
+    restart: on-failure
     ports:
       - "5434:5432"
     environment:
@@ -19,7 +19,7 @@ services:
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin_container
-    restart: always
+    restart: on-failure
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
@@ -29,6 +29,13 @@ services:
       - postgres
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog_container
+    restart: on-failure
+    ports:
+      - "1025:1025"
+      - "8025:8025"
 
 volumes:
   postgres_data:

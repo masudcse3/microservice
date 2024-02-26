@@ -26,7 +26,7 @@ const createProduct = async (
     if (productExist) {
       return res.status(400).json({ message: "This product already in shop" });
     }
-    // TODO: check the inventoryID get productId instead of name
+
     const { data } = await axios.post(`${INVENTORY_SERVICE_URL}/inventories`, {
       productName: name,
       sku,
