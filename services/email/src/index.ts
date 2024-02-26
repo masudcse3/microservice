@@ -25,10 +25,10 @@ app.use((_req, res) => {
 // Global Error handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err.name === "PrismaClientKnownRequestError") {
-    console.log(err.stack);
+    console.error(err.stack);
     return res.status(403).json({ message: "Bad request" });
   }
-  console.log(err.stack);
+  console.error(err.stack);
   res.status(500).json({ message: "Something went wrong on the server" });
 });
 

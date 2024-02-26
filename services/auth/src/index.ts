@@ -7,6 +7,7 @@ import dovenv from "dotenv";
 import {
   login,
   registerAccount,
+  resetPassword,
   verifyEmail,
   verifyToken,
 } from "./controllers";
@@ -26,6 +27,7 @@ app.post("/auth/register", registerAccount);
 app.post("/auth/login", login);
 app.post("/auth/verify-email", verifyEmail);
 app.post("/auth/verify-token", verifyToken);
+app.post("/auth/reset-password", resetPassword);
 // 404 Error handler
 app.use((_req, res) => {
   return res.status(404).json({ message: "404 Resource not found." });
